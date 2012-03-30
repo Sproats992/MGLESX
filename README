@@ -1,0 +1,34 @@
+MGLESX
+------
+
+MGLESX is a lightweight matrix manipulation library to provide a matrix stack and transformation support for OpenGL ES 2.
+
+It is currently work in progress.
+
+Version 0.0.
+
+Unit Test results for iOS:
+Test Suite '/Users/sproats556/Library/Developer/Xcode/DerivedData/MGLESX-foiwsiwplejzgoaepjibjnmsduxx/Build/Products/Debug-iphonesimulator/MGLESXTests.octest(Tests)' started at 2012-03-30 12:03:59 +0000
+Test Suite 'MGLESXTests' started at 2012-03-30 12:03:59 +0000
+Test Case '-[MGLESXTests testCombinedFunctions]' started.
+Test Case '-[MGLESXTests testCombinedFunctions]' passed (0.000 seconds).
+Test Case '-[MGLESXTests testIdentityMatrixFunctions]' started.
+Test Case '-[MGLESXTests testIdentityMatrixFunctions]' passed (0.000 seconds).
+Test Case '-[MGLESXTests testLoadFrustumFunctions]' started.
+Test Case '-[MGLESXTests testLoadFrustumFunctions]' passed (0.000 seconds).
+Test Case '-[MGLESXTests testLoadMatrixFunctions]' started.
+Test Case '-[MGLESXTests testLoadMatrixFunctions]' passed (0.000 seconds).
+Test Case '-[MGLESXTests testLoadOrthoFunctions]' started.
+Test Case '-[MGLESXTests testLoadOrthoFunctions]' passed (0.000 seconds).
+Test Case '-[MGLESXTests testMatrixStackFunctionsAndErrors]' started.
+Test Case '-[MGLESXTests testMatrixStackFunctionsAndErrors]' passed (0.000 seconds).
+Test Case '-[MGLESXTests testModelviewRotationFunctions]' started.
+Test Case '-[MGLESXTests testModelviewRotationFunctions]' passed (0.000 seconds).
+Test Case '-[MGLESXTests testModelviewScalingFunctions]' started.
+Test Case '-[MGLESXTests testModelviewScalingFunctions]' passed (0.000 seconds).
+Test Case '-[MGLESXTests testModelviewTranslationFunctions]' started.
+Test Case '-[MGLESXTests testModelviewTranslationFunctions]' passed (0.000 seconds).
+Test Suite 'MGLESXTests' finished at 2012-03-30 12:03:59 +0000.
+Executed 9 tests, with 0 failures (0 unexpected) in 0.000 (0.001) seconds
+Test Suite '/Users/sproats556/Library/Developer/Xcode/DerivedData/MGLESX-foiwsiwplejzgoaepjibjnmsduxx/Build/Products/Debug-iphonesimulator/MGLESXTests.octest(Tests)' finished at 2012-03-30 12:03:59 +0000.
+Executed 9 tests, with 0 failures (0 unexpected) in 0.000 (0.002) seconds
