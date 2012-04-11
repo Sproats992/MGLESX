@@ -1,17 +1,10 @@
-/*
- 
-Copyright © 2012 Robert Sproats. All Rights Reserved.
-
-Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
-
-1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
-
-2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
-
-3. The name of the author may not be used to endorse or promote products derived from this software without specific prior written permission.
-
-THIS SOFTWARE IS PROVIDED BY ROBERT SPROATS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-*/
+//
+//  MGLESXTests.m
+//  MGLESXTests
+//
+//  Created by Robert Sproats on 30/03/2012.
+//  Copyright (c) 2012 Mnemonic Studios Ltd. All rights reserved.
+//
 
 #import "MGLESXTests.h"
 #include "MGLESX.h"
@@ -66,6 +59,20 @@ float current_tolerance_percentage = 0.01f;
     
 }
 
+-(Boolean)compare3x3Matrix:(float*)matrix_one matrix_two:(float*)matrix_two {
+    
+    int matrix_loop = 0;
+    Boolean result_to_return = true;
+    for (matrix_loop=0; matrix_loop<9; matrix_loop++) {
+        if ([self floatingPointTest:matrix_one[matrix_loop] value_two:matrix_two[matrix_loop] tolerance_percentage:current_tolerance_percentage]==false) { NSLog(@"matrix elements %d not equal to: %f and %f", matrix_loop, matrix_one[matrix_loop], matrix_two[matrix_loop]);
+            result_to_return = false;
+        }
+    }
+    
+    return result_to_return;
+    
+}
+
 -(void)log4x4Matrix:(float*)matrix_to_log
 {
     
@@ -101,6 +108,88 @@ float current_tolerance_percentage = 0.01f;
     MGLESXMatrix4x4* test_matrix_pointer = MGLESX_getCurrentMatrixPointer();
     
     [self verifyIdentityMatrix:test_matrix_pointer[0]];
+    
+}
+
+-(void)testCreatePerspective
+{
+
+    MGLESX_set_matrix_mode(MGLESX_MATRIX_MODE_PROJECTION);
+    
+    MGLESX_loadIdentity();
+    MGLESXMatrix4x4* test_matrix_pointer = MGLESX_getCurrentMatrixPointer();    
+    [self verifyIdentityMatrix:test_matrix_pointer[0]];
+    
+    MGLESX_createPerspective(65.0f, 0.75f, 0.1f, 100.0f);
+    
+    MGLESXMatrix4x4 test_results_matrix = { 
+        2.092914, 0.000000, 0.000000, 0.000000,
+        0.000000, 1.569686, 0.000000, 0.000000,
+        0.000000, 0.000000, -1.002002, -1.000000,
+        0.000000, 0.000000, -0.200200, 0.000000
+    };
+    
+    STAssertTrue([self compare4x4Matrix:test_matrix_pointer[0] matrix_two:&test_results_matrix[0]], @"Create perspective matrix 1 does not match test data.");
+
+
+}
+
+-(void)testLookAt
+{
+    //void MGLESX_lookAt(float eyeX, float eyeY, float eyeZ, float centerX, float centerY, float centerZ, float upX, float upY, float upZ);
+    
+    
+}
+-(void)testMatrixOperations
+{
+    
+    //test one - check correct 3x3 matrix is cropped from 4x4 matrix.
+    MGLESXMatrix4x4 test_data_matrix = {
+        1.0f, 2.0f, 3.0f, 4.0f,
+        5.0f, 6.0f, 7.0f, 8.0f,
+        9.0f, 10.0f, 11.0f, 12.0f,
+        13.0f, 14.0f, 15.0f, 16.0f
+    };
+    
+    MGLESXMatrix3x3 test_results_matrix = {
+        0.0f, 0.0f, 0.0f,
+        0.0f, 0.0f, 0.0f,
+        0.0f, 0.0f, 0.0f
+    };
+    
+    MGLESX_get3x3MatrixFrom4x4Matrix(&test_data_matrix[0] , &test_results_matrix[0]);
+    
+    MGLESXMatrix4x4 test_comparison_matrix = { 
+        1.0f, 2.0f, 3.0f, 
+        5.0f, 6.0f, 7.0f, 
+        9.0f, 10.0f, 11.0f
+    };
+    
+    STAssertTrue([self compare3x3Matrix:&test_results_matrix[0] matrix_two:&test_comparison_matrix[0]], @"Matrix operations 1 does not match test data.");
+
+    
+    //test two - check correct 3x3 matrix is inverted and transposed.
+    MGLESXMatrix3x3 test2_data_matrix = {
+        -0.215996, 0.957403, -0.191636,
+        0.974238, 0.224364, 0.022832,
+        0.064856, -0.181768, -0.981200
+    };
+    
+    MGLESXMatrix3x3 test2_results_matrix = {
+        0.0f, 0.0f, 0.0f,
+        0.0f, 0.0f, 0.0f,
+        0.0f, 0.0f, 0.0f,
+    };
+    
+    MGLESX_matrix3x3InvertAndTranspose(&test2_data_matrix[0] , &test2_results_matrix[0]);
+    
+    MGLESXMatrix4x4 test2_comparison_matrix = { 
+        -0.215996, 0.957403, -0.191636,
+        0.974238, 0.224364, 0.022832,
+        0.064856, -0.181768, -0.981201
+    };
+    
+    STAssertTrue([self compare3x3Matrix:&test2_results_matrix[0] matrix_two:&test2_comparison_matrix[0]], @"Matrix operations 2 does not match test data.");
     
 }
 
