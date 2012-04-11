@@ -41,7 +41,10 @@ void matsup_LoadScaleXYZ(float *m, float x_scale, float y_scale, float z_scale);
 void matsup_SetScaleXYZ(float *m, float x_scale, float y_scale, float z_scale);
 void matsup_CalculateVertices(float *source_matrix, float *input_vertex_list, float *output_vertex_list, int number_of_vertices);
 void matsup_CopyMatrix(float *input_matrix, float *output_matrix);
+void matsup_NormalizeVector(float* vector2normalize);
+void matstup_VectorCrossProduct3f(const float* a, const float* b, float * vout);
 
+    
 /*check if the compiler is of C++ */
 #ifdef __cplusplus
 }

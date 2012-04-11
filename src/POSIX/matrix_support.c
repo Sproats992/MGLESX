@@ -141,6 +141,23 @@ void matsup_SetScaleXYZ(float *m, float x_scale, float y_scale, float z_scale) {
 	m[11] *= z_scale;	
 }
 
+//this kinda sucks - sort it out.
+void matsup_NormalizeVector(float* vector2normalize) {
+    
+    vector the_vector;
+    
+    the_vector.i = vector2normalize[0];
+    the_vector.j = vector2normalize[1];
+    the_vector.k = vector2normalize[2];
+    
+    slowNormaliseVector(&the_vector); //slow function, but what can you do?
+    
+    vector2normalize[0] = the_vector.i;
+    vector2normalize[1] = the_vector.j;
+    vector2normalize[2] = the_vector.k;
+
+}
+
 //derived from OpenGL ES glRotation. See here: http://www.khronos.org/opengles/documentation/opengles1_0/html/glRotate.html
 void matsup_LoadRotations(float degrees, float* m, float x_angle, float y_angle, float z_angle) {
 
@@ -449,6 +466,28 @@ void matsup_CopyMatrix(float *input_matrix, float *output_matrix) {
      
 
 }
+
+//this also sucks - sort out the vectors.
+void matstup_VectorCrossProduct3f(const float* a, const float* b, float * vout) 
+{
+    vector aVector, bVector, cross_product_vector;
+    
+    aVector.i = a[0];
+    aVector.j = a[1];
+    aVector.k = a[2];
+    
+    bVector.i = b[0];
+    bVector.j = b[1];
+    bVector.k = b[2];
+    
+    crossProduct(&aVector, &bVector, &cross_product_vector);
+    
+    vout[0] = cross_product_vector.i;
+    vout[1] = cross_product_vector.j;
+    vout[2] = cross_product_vector.k;
+    
+}
+
 
 void matsup_MultiplyMat4f(const float* a, const float* b, float* mout)
 {

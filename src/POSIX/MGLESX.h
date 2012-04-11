@@ -23,6 +23,9 @@ extern "C" {
 #endif
 
 typedef float MGLESXMatrix4x4[16];
+typedef float MGLESXMatrix3x3[9];
+typedef float MGLESXVector3f[3];
+typedef float MGLESXVector4f[4];
 
 static const int MGLESX_MATRIX_MODE_PROJECTION = 1;
 static const int MGLESX_MATRIX_MODE_MODEL_VIEW = 2;
@@ -38,16 +41,21 @@ void MGLESX_rotatef(float angle, float x_rotation, float y_rotation, float z_rot
 void MGLESX_scalef(float x_scale, float y_scale, float z_scale);
 void MGLESX_set_matrix_mode(int matrix_mode_to_set);
 void MGLESX_raise_error(int error_code);
-
 void MGLESX_frustumf(float left,  float right,  float bottom,  float top,  float near,  float far);
 void MGLESX_orthof(float left,  float right,  float bottom,  float top,  float near,  float far);
 void MGLESX_loadMatrixf(float * m);
-    
+void MGLESX_getModelProjectionMatrix(float * m);    
+void MGLESX_createPerspective(float fovy, float aspect_ratio, float z_near, float z_far);
+void MGLESX_lookAt(float eyeX, float eyeY, float eyeZ, float centerX, float centerY, float centerZ, float upX, float upY, float upZ);
+void MGLESX_matrix3x3InvertAndTranspose(const float * input_3x3_matrix, float * output_3x3_matrix);
+void MGLESX_get3x3MatrixFrom4x4Matrix(const float * input_4x4_matrix, float * output_3x3_matrix);
+
 int MGLESX_getError();
 
 //test functions.
 MGLESXMatrix4x4* MGLESX_getMatrixPointerAtStackPosition(int stack_position);
 MGLESXMatrix4x4* MGLESX_getCurrentMatrixPointer();
+void MGLESX_getCurrentMatrix(MGLESXMatrix4x4* matrix_to_load);
 int MGLESX_getCurrentMatrixMode();
 
     
@@ -57,6 +65,7 @@ static const int MGLESX_ERROR_CODE_OVERFLOW_PROJECTION_MATRIX_STACK = 2;
 static const int MGLESX_ERROR_CODE_UNRECOGNISED_MATRIX_MODE = 3;
 static const int MGLESX_ERROR_CODE_UNDERFLOW_MODELVIEW_MATRIX_STACK = 4;
 static const int MGLESX_ERROR_CODE_UNDERFLOW_PROJECTION_MATRIX_STACK = 5;
+static const int MGLESX_ERROR_CODE_MATRIX_DETERMINANT_IS_ZERO = 6;
 
 /*check if the compiler is of C++ */
 #ifdef __cplusplus
